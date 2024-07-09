@@ -1,19 +1,14 @@
-complete <- function(directory, id = 1:332){
+pollutantmean <- function(directory, pollutant, id = 1:332){
   
+  subset_data <- data.frame()
   list_of_files <- list.files(directory, full.names = TRUE)
-  complete_frame <- data.frame()
   
   for(i in id){
+    
     file <- list_of_files[i]
     data <- read.csv(file)
-    cases <- data.frame(i, sum(complete.cases(data)))
-    #łącze wiersze 
-    complete_frame <- rbind(complete_frame, cases)
-   
     
+    subset_data <- rbind(subset_data, data)
   }
-  colnames(complete_frame)<-c("id", "nobs")
-  complete_frame
+  mean(subset_data[[pollutant]],na.rm = TRUE)
 }
-
-print(complete("specdata", 3))
